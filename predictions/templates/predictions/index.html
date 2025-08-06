@@ -2,33 +2,149 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Predictor NBA por Décadas</title>
+    <title>🏀 Predictor NBA por Décadas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #1e1e1e; }
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] { -moz-appearance: textfield; }
-        .card-form { background: #5a6268; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.4); }
+    body {
+        background-image: 
+            url('https://i.pinimg.com/736x/19/5b/8d/195b8dbce1a808993ef06d9c87005157.jpg'),  /* izquierda */
+            url('https://i.pinimg.com/736x/82/9a/82/829a82bd6f39f7456c6f4cc2dacc27f6.jpg'),  /* derecha */
+            url('https://www.transparenttextures.com/patterns/asfalt-dark.png');              /* textura */
+
+        background-position: left center, right center, center center;
+        background-repeat: no-repeat, no-repeat, repeat;
+        background-size: 950px 150vh, 1000px 150vh, cover;
+        background-attachment: fixed, fixed, fixed;
+
+        background-color: #000;
+        font-family: 'Oswald', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+
+
+    /* Header estilo marcador NBA */
+    .header-nba {
+        background: linear-gradient(135deg, #1e1e1e, #333);
+        padding: 20px;
+        text-align: center;
+        border-bottom: 5px solid #ff9800;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+        position: relative;
+    }
+    .header-nba h1 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #ff9800;
+        text-shadow: 0 0 10px rgba(255,152,0,0.8), 0 0 20px rgba(255,152,0,0.5);
+        letter-spacing: 2px;
+    }
+    .header-nba::before,
+    .header-nba::after {
+        content: "🏀";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+    }
+    .header-nba::before { left: 20px; }
+    .header-nba::after { right: 20px; }
+
+    /* Footer estilo marcador NBA */
+    .footer-nba {
+        background: linear-gradient(135deg, #333, #1e1e1e);
+        padding: 12px;
+        text-align: center;
+        border-top: 5px solid #ff9800;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.7);
+        font-weight: bold;
+        color: #ffcc80;
+        font-size: 1rem;
+    }
+
+    .overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: -1;
+    }
+    .card-form {
+        background: rgba(34, 34, 34, 0.92);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 0 25px rgba(255,152,0,0.7);
+        border: 2px solid #ff9800;
+        margin-top: 30px;
+    }
+    .form-label {
+        font-weight: 600;
+        color: #ffcc80;
+    }
+    .form-select, .form-control {
+        border-radius: 10px;
+        border: 2px solid #ff9800;
+        background-color: #222;
+        color: white;
+        font-size: 1.05rem;
+    }
+    .form-select:focus, .form-control:focus {
+        box-shadow: 0 0 10px #ff9800;
+        border-color: #ff9800;
+    }
+    .btn-primary {
+        background-color: #ff9800;
+        border: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .btn-primary:hover {
+        background-color: #e68900;
+        transform: scale(1.05);
+    }
+    .nba-logo {
+        display: block;
+        margin: 0 auto 15px;
+        width: 180px;
+        transition: transform 0.3s ease;
+    }
+    .nba-logo:hover {
+        transform: scale(1.1);
+    }
+    .basketball-divider {
+        height: 4px;
+        background: linear-gradient(to right, #ff9800, #ffffff, #1e88e5);
+        border-radius: 2px;
+        margin: 20px 0;
+    }
     </style>
 </head>
-<body class="text-white">
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Predictor NBA </h1>
+<body>
 
-    <!-- Mensaje de error en rojo si algo falla -->
+<!-- HEADER estilo marcador -->
+<div class="header-nba">
+    <h1>Predictor NBA por Décadas</h1>
+</div>
+
+<div class="overlay"></div>
+<div class="container py-5">
+    <img src="https://images.seeklogo.com/logo-png/33/2/nba-logo-png_seeklogo-332722.png" class="nba-logo" alt="NBA Logo">
+
     {% if error %}
     <div class="alert alert-danger text-center">{{ error }}</div>
     {% endif %}
 
-    <div class="card-form mx-auto" style="max-width: 500px;">
+    <div class="card-form mx-auto" style="max-width: 600px;">
         <form method="POST" action="{% url 'predecir' %}">
             {% csrf_token %}
 
-            <!-- Edad -->
             <div class="mb-3">
                 <label class="form-label">Edad</label>
                 <select name="Age" class="form-select" required>
@@ -38,19 +154,17 @@
                 </select>
             </div>
 
-            <!-- Posición -->
             <div class="mb-3">
                 <label class="form-label">Posición</label>
                 <select name="Pos" class="form-select" required>
-                    <option value="1">PG - Base</option>
-                    <option value="2">SG - Escolta</option>
-                    <option value="3">SF - Alero</option>
-                    <option value="4">PF - Ala-Pívot</option>
-                    <option value="5">C - Pívot</option>
+                    <option value="1">🏀 PG - Base</option>
+                    <option value="2">🏀 SG - Escolta</option>
+                    <option value="3">🏀 SF - Alero</option>
+                    <option value="4">🏀 PF - Ala-Pívot</option>
+                    <option value="5">🏀 C - Pívot</option>
                 </select>
             </div>
 
-            <!-- Partidos Jugados -->
             <div class="mb-3">
                 <label class="form-label">Partidos Jugados (60-82)</label>
                 <select name="G" class="form-select" required>
@@ -60,7 +174,8 @@
                 </select>
             </div>
 
-            <!-- Campos dinámicos -->
+            <div class="basketball-divider"></div>
+
             {% for campo in campos %}
                 {% if campo == "PF" %}
                     <div class="mb-3">
@@ -75,9 +190,16 @@
                 {% endif %}
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary w-100 mt-3">Predecir</button>
+            <button type="submit" class="btn btn-primary w-100 mt-3">🏆 Predecir</button>
         </form>
     </div>
 </div>
+
+<!-- FOOTER estilo marcador -->
+<div class="footer-nba">
+    Datos y predicciones inspiradas en la NBA • Proyecto 2025 •
+        Ruddy Contreras 21-1826 - Ángel Prevost 21-1380
+</div>
+
 </body>
 </html>

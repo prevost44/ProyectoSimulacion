@@ -2,82 +2,201 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Resultados de Predicción</title>
+    <title>📊 Resultados de Predicción</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #1e1e1e; color: white; }
-        .contenedor-decada, .contenedor-matematicas {
-            background: #2c2c2c;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-        .titulo-decada, .titulo-matematicas {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #ffcc00;
-            margin-bottom: 10px;
-        }
-        .etiqueta { font-weight: bold; }
-        .si { color: #00ff99; font-weight: bold; }
-        .no { color: #ff4d4d; font-weight: bold; }
-        .btn-volver { background: #ffcc00; color: #000; font-weight: bold; }
+    body {
+        background-image: 
+            url('https://i.pinimg.com/736x/19/5b/8d/195b8dbce1a808993ef06d9c87005157.jpg'),
+            url('https://i.pinimg.com/736x/82/9a/82/829a82bd6f39f7456c6f4cc2dacc27f6.jpg'),
+            url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+        background-position: left center, right center, center center;
+        background-repeat: no-repeat, no-repeat, repeat;
+        background-size: cover, cover, auto;
+        background-attachment: fixed, fixed, fixed;
+        background-color: #000;
+        font-family: 'Oswald', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    .overlay {
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: -1;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        background: linear-gradient(to right, #ffcc00, #ff9800);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        text-shadow: 0 0 12px rgba(255, 152, 0, 0.6);
+    }
+
+    .contenedor-matematicas, .contenedor-decada {
+        background: rgba(20, 20, 20, 0.96);
+        border: 2px solid #ff9800;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 0 20px rgba(255, 152, 0, 0.25);
+    }
+
+    .titulo-matematicas, .titulo-decada {
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #ffcc00;
+        text-shadow: 1px 1px 6px #000;
+        text-align: center;
+    }
+
+    .titulo-matematicas::before,
+    .titulo-matematicas::after {
+        content: "📐";
+        margin: 0 8px;
+    }
+
+    .etiqueta {
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .si {
+        color: #00ff99;
+        font-weight: bold;
+    }
+
+    .no {
+        color: #ff4d4d;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background: linear-gradient(to right, #ff9800, #ffcc00);
+        color: #000;
+        font-weight: bold;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+        transition: transform 0.2s ease;
+    }
+
+    .btn-volver:hover {
+        transform: scale(1.05);
+        background: linear-gradient(to right, #ffa726, #fff176);
+    }
+
+    .emoji-col {
+        font-size: 1.4rem;
+        margin-right: 8px;
+    }
+
+    .contenedor-matematicas p, .contenedor-decada p {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="text-center mb-4">📊 Resultados de Predicción</h1>
 
-    <!-- ✅ Nueva sección de estadísticas matemáticas -->
+<div class="overlay"></div>
+
+<div class="container">
+    <h1>📊 Resultados de Predicción</h1>
+
+    <!-- 🧠 Estadísticas matemáticas -->
     <div class="contenedor-matematicas">
-        <div class="titulo-matematicas">📐 Estadísticas Meramente Matemáticas</div>
-
+        <div class="titulo-matematicas">Estadísticas Meramente Matemáticas</div>
         <div class="row">
             <div class="col-md-6">
-                <p><span class="etiqueta">PTS:</span> {{ puntosCalculados }}</p>
-                <p><span class="etiqueta">AST:</span> {{ statsUsuario.AST }}</p>
-                <p><span class="etiqueta">REB:</span> {{ statsUsuario.ORB|add:statsUsuario.DRB }}</p>
-                <p><span class="etiqueta">STL:</span> {{ statsUsuario.STL }}</p>
-                <p><span class="etiqueta">BLK:</span> {{ statsUsuario.BLK }}</p>
+                <p><span class="emoji-col">🏀</span><span class="etiqueta">PTS:</span> {{ puntosCalculados }}</p>
+                <p><span class="emoji-col">🎯</span><span class="etiqueta">AST:</span> {{ statsUsuario.AST }}</p>
+                <p><span class="emoji-col">🛡️</span><span class="etiqueta">REB:</span> {{ statsUsuario.ORB|add:statsUsuario.DRB }}</p>
+                <p><span class="emoji-col">🕵️</span><span class="etiqueta">STL:</span> {{ statsUsuario.STL }}</p>
+                <p><span class="emoji-col">⛔</span><span class="etiqueta">BLK:</span> {{ statsUsuario.BLK }}</p>
             </div>
             <div class="col-md-6">
-                <p><span class="etiqueta">FG%:</span> {{ porcentajes.FGP }}%</p>
-                <p><span class="etiqueta">2P%:</span> {{ porcentajes.P2P }}%</p>
-                <p><span class="etiqueta">3P%:</span> {{ porcentajes.P3P }}%</p>
-                <p><span class="etiqueta">TL%:</span> {{ porcentajes.FTP }}%</p>
-                <p><span class="etiqueta">TOV:</span> {{ statsUsuario.TOV }}</p>
-                <p><span class="etiqueta">PF:</span> {{ statsUsuario.PF }}</p>
+                <p><span class="emoji-col">🎯</span><span class="etiqueta">FG%:</span> {{ porcentajes.FGP }}%</p>
+                <p><span class="emoji-col">💥</span><span class="etiqueta">2P%:</span> {{ porcentajes.P2P }}%</p>
+                <p><span class="emoji-col">💣</span><span class="etiqueta">3P%:</span> {{ porcentajes.P3P }}%</p>
+                <p><span class="emoji-col">🎯</span><span class="etiqueta">TL%:</span> {{ porcentajes.FTP }}%</p>
+                <p><span class="emoji-col">❌</span><span class="etiqueta">TOV:</span> {{ statsUsuario.TOV }}</p>
+                <p><span class="emoji-col">🚫</span><span class="etiqueta">PF:</span> {{ statsUsuario.PF }}</p>
             </div>
         </div>
     </div>
 
-    <!-- ✅ Sección de predicciones por década -->
-    {% for decada, valores in resultados.items %}
-    <div class="contenedor-decada">
-        <div class="titulo-decada">🏀 Década de los {{ decada }}</div>
-        <p><span class="etiqueta">PPG:</span> {{ valores.PuntosPorPartido|floatformat:2 }}</p>
-        <p><span class="etiqueta">ASG:</span>
-            <span class="{% if valores.AllStar == 1 %}si{% else %}no{% endif %}">
-                {% if valores.AllStar == 1 %}Sí{% else %}No{% endif %}
-            </span>
-        </p>
-        <p><span class="etiqueta">ANT (All-NBA Team):</span>
-            <span class="{% if valores.AllNBA == 1 %}si{% else %}no{% endif %}">
-                {% if valores.AllNBA == 1 %}Sí{% else %}No{% endif %}
-            </span>
-        </p>
-        <p><span class="etiqueta">MVP5:</span>
-            <span class="{% if valores.MVPTop5 == 1 %}si{% else %}no{% endif %}">
-                {% if valores.MVPTop5 == 1 %}Sí{% else %}No{% endif %}
-            </span>
-        </p>
+    <!-- 📈 Resultados por década (segmentados) -->
+    <div class="row">
+        {% for decada, valores in resultados.items %}
+        {% if decada == "2020" %}
+        <!-- Centrado para década 2020 -->
+        <div class="col-md-12 d-flex justify-content-center mb-4">
+            <div class="contenedor-decada w-75">
+                <div class="titulo-decada">🏀 Década de los {{ decada }}</div>
+                <p><span class="etiqueta">PPG:</span> {{ valores.PuntosPorPartido|floatformat:2 }}</p>
+                <p><span class="etiqueta">ASG:</span>
+                    <span class="{% if valores.AllStar == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.AllStar == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+                <p><span class="etiqueta">ANT (All-NBA Team):</span>
+                    <span class="{% if valores.AllNBA == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.AllNBA == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+                <p><span class="etiqueta">MVP5:</span>
+                    <span class="{% if valores.MVPTop5 == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.MVPTop5 == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+        {% else %}
+        <!-- Normal en columnas -->
+        <div class="col-md-6 d-flex justify-content-center mb-4">
+            <div class="contenedor-decada w-100">
+                <div class="titulo-decada">🏀 Década de los {{ decada }}</div>
+                <p><span class="etiqueta">PPG:</span> {{ valores.PuntosPorPartido|floatformat:2 }}</p>
+                <p><span class="etiqueta">ASG:</span>
+                    <span class="{% if valores.AllStar == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.AllStar == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+                <p><span class="etiqueta">ANT (All-NBA Team):</span>
+                    <span class="{% if valores.AllNBA == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.AllNBA == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+                <p><span class="etiqueta">MVP5:</span>
+                    <span class="{% if valores.MVPTop5 == 1 %}si{% else %}no{% endif %}">
+                        {% if valores.MVPTop5 == 1 %}Sí{% else %}No{% endif %}
+                    </span>
+                </p>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
-    {% endfor %}
 
+    <!-- 🔙 Botón de volver -->
     <div class="text-center mt-4">
         <a href="{% url 'inicio' %}" class="btn btn-volver">🔙 Volver al Inicio</a>
     </div>
 </div>
+
 </body>
 </html>

@@ -9,7 +9,7 @@ posiciones = [
 ]
 
 edades = [(str(i), str(i)) for i in range(18, 41)]
-juegos = [(str(i), str(i)) for i in range(60, 83)]  # 60–82 partidos
+juegos = [(str(i), str(i)) for i in range(60, 83)]  
 
 class PlayerStatsForm(forms.Form):
     Age = forms.ChoiceField(label="Edad", choices=edades)
